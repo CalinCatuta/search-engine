@@ -16,6 +16,7 @@ import { getNumberOfJobsAndCompanies } from '../../utils/get-data';
 import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
 import { Title } from './components/title/title.component';
+import { Filter } from '../../components/filters/filter.component';
 import './landing.style.scss';
 
 export const LandingPage = () => {
@@ -54,6 +55,7 @@ export const LandingPage = () => {
           <div className="main">
             <Title allJobs={allJobs} totalJobs={totalJobs} />
             <Search handleClick={handleSearchClick} queries={queries} />
+            <Filter />
           </div>
           <Rocket />
         </section>

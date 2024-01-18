@@ -200,6 +200,7 @@ export const Search = (props) => {
             </span>
           )}
         </div>
+
         <div className="option-container ">
           {inputs === 1 ? (
             <div className="country query">

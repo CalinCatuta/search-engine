@@ -1,0 +1,45 @@
+@use '../../styles/colors';
+@use '../../styles/breakpoints';
+.filter-div {
+  border: 1px solid colors.$border_light_grey;
+  border-radius: 8px;
+  width: 30%;
+  margin-top: 10px;
+  .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-family: PoppinsLight;
+    border-bottom: 1px solid colors.$border_light_grey;
+
+    img {
+      top: 11px;
+      left: 12px;
+      margin: 14px;
+    }
+
+    input {
+      all: unset;
+      font-size: 16px;
+      padding: 14px 30px 14px 0px;
+      line-height: 18px;
+      color: colors.$text_ink_black;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    &:focus-within {
+      border: 1px solid colors.$background_orange;
+      border-radius: 8px;
+    }
+
+    ::placeholder {
+      color: colors.$text_grey;
+    }
+  }
+}
+.top .filter-div {
+  margin-top: 0px;
+  margin-left: 190px;
+  margin-bottom: 5px;
+}

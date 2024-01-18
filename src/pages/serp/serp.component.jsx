@@ -106,6 +106,8 @@ export const SerpPage = () => {
         <div className="search-wrapper">
           <Search handleClick={handleSearchClick} queries={queries} />
         </div>
+
+        {/* Aici va trebui sa ajunga inputul in care scri numele firmei */}
       </section>
       <div className="main-wrapper flex-column margin-top-0">
         <TotalResults total={total} />
