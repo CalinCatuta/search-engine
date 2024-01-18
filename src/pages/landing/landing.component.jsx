@@ -41,6 +41,7 @@ export const LandingPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Aici isi schimba valoarea url si trage datele care corespund
   const handleSearchClick = () => {
     navigate(
       `${queries ? `rezultate?${createQueryString(queries)}` : 'rezultate'}`
