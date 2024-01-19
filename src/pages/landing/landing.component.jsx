@@ -23,7 +23,6 @@ export const LandingPage = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const queries = useSelector((state) => state.query);
-
   const allJobs = useSelector((state) => state.jobs.allJobs);
   const totalJobs = useSelector((state) => state.jobs.total);
 
@@ -41,7 +40,6 @@ export const LandingPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Aici isi schimba valoarea url si trage datele care corespund
   const handleSearchClick = () => {
     navigate(
       `${queries ? `rezultate?${createQueryString(queries)}` : 'rezultate'}`
