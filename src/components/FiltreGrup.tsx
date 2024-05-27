@@ -15,20 +15,29 @@ const cREG = new RegExp("â", "g");
 const dREG = new RegExp("ă", "g");
 const eREG = new RegExp("î", "g");
 
-// CheckboxFilter component for filtering items
-const CheckboxFilter = ({ items, filterKey, searchFor, dropDown }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [error, setError] = useState(false);
+interface CheckboxFilterProps {
+  items: string[];
+  filterKey: string;
+  searchFor: string;
+  dropDown: boolean[];
+}
+
+const CheckboxFilter: React.FC<CheckboxFilterProps> = ({
+  items,
+  filterKey,
+  searchFor,
+  dropDown
+}) => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
-  // Empty the search value when dropdown its closed
   useEffect(() => {
     if (dropDown[0] || dropDown[1]) {
       setSearchQuery("");
     }
   }, [dropDown]);
 
-  // Filtering items based on search query
   const filteredItems = items.filter(
     (item) =>
       (searchQuery.length >= 1 &&
@@ -43,15 +52,12 @@ const CheckboxFilter = ({ items, filterKey, searchFor, dropDown }) => {
       item.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Effect to handle error when no results are found
   useEffect(() => {
     setError(filteredItems.length === 0 && searchQuery.length > 0);
   }, [filteredItems, searchQuery]);
 
-  // Displaying filtered items
   let displayItems = filteredItems;
 
-  // Show the checked items on top
   const checkedItems = displayItems.filter((item) =>
     fields[filterKey].includes(item)
   );
@@ -95,28 +101,20 @@ const CheckboxFilter = ({ items, filterKey, searchFor, dropDown }) => {
   );
 };
 
-const FiltreGrup = () => {
-  const [data, setData] = useState([]);
+const FiltreGrup: React.FC = () => {
+  const [data, setData] = useState<string[]>([]);
 
-  // use it for closing dropdown on click
-  const refDropdown = useRef();
-
-  // Destructuring fields and handleCheckBoxChange from the context
+  const refDropdown = useRef<HTMLDivElement>(null);
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
+  const [dropDown, setDropDown] = useState<boolean[]>([false, false, false]);
 
-  // State for dropdown visibility
-  const [dropDown, setDropDown] = useState([false, false, false]);
-
-  // Function to handle dropdown toggle
-  function handleDropDown(index) {
-    // Toggle the dropdown at the specified index
+  function handleDropDown(index: number) {
     const updatedDropDown = dropDown.map((item, i) =>
       i === index ? !item : false
     );
     setDropDown(updatedDropDown);
   }
 
-  // Fetching company data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -130,8 +128,7 @@ const FiltreGrup = () => {
     fetchData();
   }, []);
 
-  // Function to get button style based on index and fields
-  const getButtonStyle = (index) => {
+  const getButtonStyle = (index: number) => {
     if (index === 0 && fields.orase.length >= 1) {
       return { color: "#048a81" };
     } else if (index === 1 && fields.company.length >= 1) {
@@ -143,8 +140,7 @@ const FiltreGrup = () => {
     }
   };
 
-  // Function to get button label based on index and fields
-  const getButtonLabel = (index) => {
+  const getButtonLabel = (index: number) => {
     if (index === 0) {
       return `Oraș ${
         fields.orase.length >= 1 ? `(${fields.orase.length})` : ""
@@ -160,21 +156,18 @@ const FiltreGrup = () => {
     }
   };
 
-  // For closing dropDown on click
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
-      // when its clicked outside the dropdown, then will close the dropdown
+    const checkIfClickedOutside = (e: MouseEvent) => {
       if (
         dropDown &&
         refDropdown.current &&
-        !refDropdown.current.contains(e.target)
+        !refDropdown.current.contains(e.target as Node)
       ) {
         setDropDown([false, false, false]);
       }
     };
     document.addEventListener("mousedown", checkIfClickedOutside);
     return () => {
-      // Cleanup the event listener
       document.removeEventListener("mousedown", checkIfClickedOutside);
     };
   }, [dropDown]);

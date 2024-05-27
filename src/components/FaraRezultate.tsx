@@ -1,3 +1,4 @@
+import React from "react";
 // svg
 import strut from "../assets/svg/strut.svg";
 // scss

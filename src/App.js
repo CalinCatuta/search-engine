@@ -1,8 +1,8 @@
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
 // Pages
-import Landing from "./pages/Landing";
-import Rezultate from "./pages/Rezultate";
+import Landing from "./pages/Landing.tsx";
+import Rezultate from "./pages/Rezultate.tsx";
 // context
 import { TagsProvider } from "./context/TagsContext";
 const router = createHashRouter([

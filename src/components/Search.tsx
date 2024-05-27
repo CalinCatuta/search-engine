@@ -4,11 +4,12 @@ import logo from "../assets/svg/logo.svg";
 // scss
 import "../scss/search.scss";
 
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { FormEvent } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 // components
-import FiltreGrup from "./FiltreGrup";
+import FiltreGrup from "./FiltreGrup.tsx";
 // redux
 import { useDispatch } from "react-redux";
 // functions to update the jobSlice state.
@@ -18,13 +19,13 @@ import {
   setTotal,
   setNumberOfCompany,
   setLoading
-} from "../reducers/jobsSlice";
+} from "../reducers/jobsSlice.ts";
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData, getNumberOfCompany } from "../utils/fetchData";
 
-const Fetch = () => {
+const Fetch: React.FC = () => {
   const { q, city, remote, county, country, company, removeTag, contextSetQ } =
     useContext(TagsContext);
   // fields
@@ -60,7 +61,7 @@ const Fetch = () => {
   }, [dispatch]);
 
   // Send text from input into state q.
-  const handleUpdateQ = async (e) => {
+  const handleUpdateQ = async (e: FormEvent) => {
     e.preventDefault();
     await contextSetQ([text]);
     if (location.pathname !== "/rezultate") {

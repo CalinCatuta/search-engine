@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getNumberOfJobs } from "../utils/fetchData";
 // images
 import logo from "../assets/svg/logo.svg";
@@ -8,15 +8,15 @@ import "../scss/landing.scss";
 // racheta
 import racheta from "../assets/svg/racheta.svg";
 // components
-import Search from "../components/Search";
-import Footer from "../components/Footer";
+import Search from "../components/Search.tsx";
+import Footer from "../components/Footer.tsx";
 
 const Landing = () => {
   const [totalJobs, setTotalJobs] = useState(0);
 
   useEffect(() => {
     async function fetchTotalJobs() {
-      const jobsNumber = await getNumberOfJobs();
+      const jobsNumber: number = await getNumberOfJobs();
       setTotalJobs(jobsNumber);
     }
     fetchTotalJobs();

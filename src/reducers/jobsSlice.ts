@@ -1,12 +1,32 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+// Define Job type
+interface Job {
+  city: string[] | null;
+  company: string;
+  job_link: string;
+  job_title: string;
+  remote: string[];
+  id: string; // assuming id is a string, change if needed
+  // Add other job properties here
+}
+
+// Define the initial state type
+interface JobsState {
+  jobs: Job[];
+  total: number;
+  totalJobs: number;
+  totalCompany: number;
+  loading: boolean;
+}
 
 // Define initial state
-const initialState = {
+const initialState: JobsState = {
   jobs: [],
   total: 0,
   totalJobs: 0,
   totalCompany: 0,
-  loading: true,
+  loading: true
 };
 
 // Create slice
@@ -14,7 +34,7 @@ const jobsSlice = createSlice({
   name: "jobs",
   initialState,
   reducers: {
-    setJobs(state, action) {
+    setJobs(state, action: PayloadAction<Job[]>) {
       // Filter out duplicates before adding new jobs
       const uniqueJobs = action.payload.filter(
         (job) => !state.jobs.some((existingJob) => existingJob.id === job.id)
@@ -24,22 +44,22 @@ const jobsSlice = createSlice({
     clearJobs(state) {
       state.jobs = [];
     },
-    setTotal(state, action) {
+    setTotal(state, action: PayloadAction<number>) {
       state.total = action.payload;
     },
-    clearTotal: (state) => {
+    clearTotal(state) {
       state.total = 0;
     },
-    setLoading: (state) => {
+    setLoading(state) {
       state.loading = true;
     },
-    setNumberOfJobs(state, action) {
+    setNumberOfJobs(state, action: PayloadAction<number>) {
       state.totalJobs = action.payload;
     },
-    setNumberOfCompany(state, action) {
+    setNumberOfCompany(state, action: PayloadAction<number>) {
       state.totalCompany = action.payload;
-    },
-  },
+    }
+  }
 });
 
 // Export actions
@@ -50,7 +70,7 @@ export const {
   clearTotal,
   setLoading,
   setNumberOfJobs,
-  setNumberOfCompany,
+  setNumberOfCompany
 } = jobsSlice.actions;
 
 // Export reducer

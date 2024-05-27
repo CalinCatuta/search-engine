@@ -1,24 +1,28 @@
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 // scss
 import "../scss/rezults.scss";
 // svg
 import removeIcon from "../assets/svg/remove.svg";
 // components
-import Job from "./Job";
-import FaraRezultate from "./FaraRezultate";
+import Job from "./Job.tsx";
+import FaraRezultate from "./FaraRezultate.tsx";
 // icons
 import scrollUp from "../assets/svg/scroll-up.svg";
 // context
 import TagsContext from "../context/TagsContext";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setJobs } from "../reducers/jobsSlice";
+import { RootState } from "../store";
+import { setJobs } from "../reducers/jobsSlice.ts";
 // function to create the string
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData } from "../utils/fetchData";
 
-function tagMapper([key, currentArray]) {
+function tagMapper(
+  this: { removeTag: (key: string, item: string) => void },
+  [key, currentArray]: [string, string[]]
+) {
   return currentArray.map((item) => (
     <div key={item} className="tags">
       <h3>{item}</h3>
@@ -30,7 +34,7 @@ function tagMapper([key, currentArray]) {
   ));
 }
 
-const Results = () => {
+const Results: React.FC = () => {
   // redux
   const dispatch = useDispatch();
   // context
@@ -47,25 +51,24 @@ const Results = () => {
     handleRemoveAllFilters
   } = useContext(TagsContext);
   // jobs
-  const jobs = useSelector((state) => state.jobs.jobs);
-  const total = useSelector((state) => state.jobs.total);
-  const loading = useSelector((state) => state.jobs.loading);
-  //state
-  const [page, setPage] = useState(1);
-  const [isVisible, setIsVisible] = useState(false);
+  const jobs = useSelector((state: RootState) => state.jobs.jobs);
+  const total = useSelector((state: RootState) => state.jobs.total);
+  const loading = useSelector((state: RootState) => state.jobs.loading);
+  // state
+  const [page, setPage] = useState<number>(1);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   // fetch more data changing the page value
   async function fetchMoreData() {
     const nextPage = page + 1;
-    const { jobs } = await getData(
+    const { jobs: newJobs } = await getData(
       createSearchString(q, city, county, country, company, remote, nextPage)
     ).catch(() => ({ jobs: [] }));
-    dispatch(setJobs(jobs));
+    dispatch(setJobs(newJobs));
     setPage(nextPage);
   }
 
   // scrollUp Button
-
   useEffect(() => {
     const checkScrollHeight = () => {
       setIsVisible(window.scrollY > 500);
@@ -95,23 +98,16 @@ const Results = () => {
 
       {jobs.length > 0 ? (
         <div className="cards-containter">
-          {jobs.map(
-            (
-              { city, company, country, county, job_link, job_title, remote },
-              idx
-            ) => (
-              <Job
-                key={idx}
-                city={city}
-                company={company}
-                country={country}
-                county={county}
-                job_link={job_link}
-                job_title={job_title}
-                remote={remote}
-              />
-            )
-          )}
+          {jobs.map((job, idx) => (
+            <Job
+              key={idx}
+              city={job.city}
+              company={job.company}
+              job_link={job.job_link}
+              job_title={job.job_title}
+              remote={job.remote}
+            />
+          ))}
         </div>
       ) : (
         <FaraRezultate />
@@ -132,4 +128,5 @@ const Results = () => {
     </div>
   );
 };
+
 export default Results;

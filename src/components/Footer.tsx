@@ -1,3 +1,4 @@
+import React from "react";
 // icons
 import linkedin from "../assets/svg/linkedin_icon.svg";
 import discord from "../assets/svg/discord_icon.svg";

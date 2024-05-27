@@ -8,28 +8,42 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getLogoOfCompanies } from "../utils/fetchData";
-const Job = ({
+
+// Define types for the props
+interface JobProps {
+  city: string[] | null;
+  company: string;
+  job_link: string;
+  job_title: string;
+  remote: string[];
+}
+
+// Define types for the logo data
+interface LogoData {
+  name: string;
+  logo: string;
+}
+
+const Job: React.FC<JobProps> = ({
   city,
   company,
-  country,
-  county,
   job_link,
   job_title,
   remote
 }) => {
-  const [logoData, setLogoData] = useState([]);
+  const [logoData, setLogoData] = useState<LogoData[]>([]);
 
   // fetch data for logo
   useEffect(() => {
     const fetchLogoData = async () => {
-      const logoData = await getLogoOfCompanies();
+      const logoData: LogoData[] = await getLogoOfCompanies();
       setLogoData(logoData);
     };
 
     fetchLogoData();
   }, []);
 
-  function displayLocation(cities) {
+  function displayLocation(cities: string[] | null) {
     return cities
       ? cities[0].toLowerCase() === "all"
         ? "Toate orasele"
@@ -39,8 +53,8 @@ const Job = ({
       : remote.join(", ");
   }
 
-  const renderCompanyLogo = (companyName) => {
-    // check if copmany name is the same as logo name
+  const renderCompanyLogo = (companyName: string) => {
+    // check if company name is the same as logo name
     const company = logoData.find((item) => item.name === companyName);
     if (company) {
       return company.logo;
@@ -55,9 +69,9 @@ const Job = ({
       <div className="container-logo">
         <img
           className="company-logo"
-          src={renderCompanyLogo(company !== undefined && company[0])}
+          src={renderCompanyLogo(company)}
           alt={company}
-          onError={(e) => (e.target.src = noLogo)}
+          onError={(e) => (e.currentTarget.src = noLogo)}
         />
       </div>
 
@@ -80,4 +94,5 @@ const Job = ({
     </div>
   );
 };
+
 export default Job;

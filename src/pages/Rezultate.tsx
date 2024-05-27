@@ -1,6 +1,7 @@
-import Results from "../components/Results";
-import Search from "../components/Search";
-import Footer from "../components/Footer";
+import React from "react";
+import Results from "../components/Results.tsx";
+import Search from "../components/Search.tsx";
+import Footer from "../components/Footer.tsx";
 import "../scss/rezults.scss";
 const Rezultate = () => {
   return (
